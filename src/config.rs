@@ -123,20 +123,21 @@ impl Config {
                 }
                 "--player-color" => {
                     if let Some(val) = iter.next()
-                        && let Some((idx_str, rgb_str)) = val.split_once('=') {
-                            if let (Ok(idx), Some(color)) =
-                                (idx_str.parse::<usize>(), parse_color(rgb_str))
-                            {
-                                if (1..=2).contains(&idx) {
-                                    config.player_colors[idx - 1] = color;
-                                } else {
-                                    eprintln!("Player index must be 1 or 2");
-                                }
+                        && let Some((idx_str, rgb_str)) = val.split_once('=')
+                    {
+                        if let (Ok(idx), Some(color)) =
+                            (idx_str.parse::<usize>(), parse_color(rgb_str))
+                        {
+                            if (1..=2).contains(&idx) {
+                                config.player_colors[idx - 1] = color;
                             } else {
-                                eprintln!("Invalid value for --player-color: {val}");
-                                eprintln!("Expected format: --player-color 1=255,0,0");
+                                eprintln!("Player index must be 1 or 2");
                             }
+                        } else {
+                            eprintln!("Invalid value for --player-color: {val}");
+                            eprintln!("Expected format: --player-color 1=255,0,0");
                         }
+                    }
                 }
                 "--bind" => {
                     if let Some(val) = iter.next() {
@@ -214,6 +215,7 @@ fn print_help() {
     println!(
         "    --vfr                      Variable frame rate — redraw only when content changes"
     );
+    println!("    --fps <n>                  Target frames per second (default: 60)");
     println!("    --gravity <f>              Disk fall gravity in rows/s² (default: 200)");
     println!("    --restitution <f>          Bounce restitution 0.0–1.0 (default: 0.5)");
     println!("    --settle <f>               Velocity threshold to snap to rest (default: 24)");
