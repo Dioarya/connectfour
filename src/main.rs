@@ -58,9 +58,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut needs_redraw = true;
 
     loop {
-        let has_active_animators = app.instances.iter().any(|inst| {
-            inst.animators.iter().flatten().any(|cell| cell.is_some())
-        });
+        let has_active_animators = app
+            .instances
+            .iter()
+            .any(|inst| inst.animators.iter().flatten().any(|cell| cell.is_some()));
 
         let timeout = if cfg.vfr && !has_active_animators {
             std::time::Duration::MAX

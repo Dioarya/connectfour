@@ -156,13 +156,12 @@ pub fn handle_key(key: crossterm::event::KeyEvent, app: &mut AppState) -> InputR
     // Normal gameplay keys
 
     // --- Instance management ---
-    if key.code == KeyCode::Char('+')
-        && can_add_instance(&app.instances) {
-            app.instances.push(Runtime::new());
-            update_all_translates(&mut app.instances);
-            app.active = app.instances.len() - 1;
-            return InputResult::Clear;
-        }
+    if key.code == KeyCode::Char('+') && can_add_instance(&app.instances) {
+        app.instances.push(Runtime::new());
+        update_all_translates(&mut app.instances);
+        app.active = app.instances.len() - 1;
+        return InputResult::Clear;
+    }
     if key.code == KeyCode::Char('-') && app.instances.len() > 1 {
         app.confirm_remove = true;
         return InputResult::RedrawAll;
@@ -214,14 +213,15 @@ pub fn handle_key(key: crossterm::event::KeyEvent, app: &mut AppState) -> InputR
 
     // Number keys 1-7 always drop directly regardless of keybind config
     if let KeyCode::Char(c) = key.code
-        && ('1'..='7').contains(&c) {
-            let rt = app.active_mut();
-            if rt.game.state == GameState::Playing {
-                let col = (c as usize) - ('1' as usize);
-                do_drop(rt, col);
-                return InputResult::Redraw;
-            }
+        && ('1'..='7').contains(&c)
+    {
+        let rt = app.active_mut();
+        if rt.game.state == GameState::Playing {
+            let col = (c as usize) - ('1' as usize);
+            do_drop(rt, col);
+            return InputResult::Redraw;
         }
+    }
 
     // --- Undo / redo ---
     if key_matches(key.code, &binds.undo) {
