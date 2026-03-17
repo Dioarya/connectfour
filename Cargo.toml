@@ -1,7 +1,11 @@
 [package]
 name = "connectfour"
+description = "A Connect Four game with an animated terminal interface, configurable via CLI, supporting multiple simultaneous game instances."
 version = "1.0.0"
 edition = "2024"
+license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/Dioarya/connectfour"
 
 [dependencies]
 crossterm = "0.29.0"
